@@ -1,25 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from '@ethersproject/providers';
+import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
+import Wallet from './Wallet';
 
 function App() {
+  const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => new Web3Provider(provider);
+
+  const { connector, library, chainId, account, active, error, activate, deactivate } =
+    useWeb3React();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Wallet />
+    </Web3ReactProvider>
   );
 }
 
